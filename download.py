@@ -62,7 +62,7 @@ if __name__=="__main__":
     n_locs = params['n_locs']
 
     start_time = time.time()
-    links = fetch_page(base_url,year)[:n_locs]
+    links = fetch_page(base_url,year)[-n_locs:-1]
     print(f"Fetch task finished in {time.time()-start_time} sec.")
     asyncio.run(download_data(links,base_url,year))
     print("-"*100)
