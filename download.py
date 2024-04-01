@@ -7,6 +7,7 @@ import time
 from tqdm import tqdm
 import yaml
 
+
 def fetch_page(base_url,year):
     
     page_url = f"{base_url}{year}/"
