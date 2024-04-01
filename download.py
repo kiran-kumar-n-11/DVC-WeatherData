@@ -5,6 +5,7 @@ import asyncio
 import aiohttp
 import time
 from tqdm import tqdm
+import yaml
 
 def fetch_page(base_url,year):
     
@@ -52,8 +53,12 @@ async def download_data(links,base_url,year):
 
 if __name__=="__main__":
     base_url = "https://www.ncei.noaa.gov/data/local-climatological-data/access/"
-    year = 2000
-    n_locs = 20
+
+    with open('params.yaml','r') as file:
+        params = yaml.safe_load(file)
+
+    year = params['year']
+    n_locs = params['n_locs']
 
     start_time = time.time()
     links = fetch_page(base_url,year)[:n_locs]
