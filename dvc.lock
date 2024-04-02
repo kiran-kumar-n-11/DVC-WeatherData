@@ -5,25 +5,27 @@ stages:
     deps:
     - path: Downloaded_Data/
       hash: md5
-      md5: 9a5d44026a77541c38530d09fcb0637b.dir
-      size: 176823312
+      md5: 5aa55afb135291e55b6b446361b23ef9.dir
+      size: 150586145
       nfiles: 249
     params:
       params.yaml:
+        monthly_fields:
+        - MonthlyDepartureFromNormalAverageTemperature
         n_locs: 250
     outs:
     - path: Extracted_Data/
       hash: md5
-      md5: 7a2c7ac8881970577094cc3524bc29e1.dir
-      size: 2843641
-      nfiles: 230
+      md5: 5a39d92503a28de349ae5a68a9502a6d.dir
+      size: 2661376
+      nfiles: 249
   process:
     cmd: python process.py
     deps:
     - path: Downloaded_Data/
       hash: md5
-      md5: 9a5d44026a77541c38530d09fcb0637b.dir
-      size: 176823312
+      md5: 5aa55afb135291e55b6b446361b23ef9.dir
+      size: 150586145
       nfiles: 249
     params:
       params.yaml:
@@ -33,28 +35,40 @@ stages:
     outs:
     - path: Processed_Data/
       hash: md5
-      md5: c09d3010cc2ba48c9d9e1649ab0ad07f.dir
-      size: 79757
-      nfiles: 230
+      md5: 0f1421b6a14d1163a5a83fae1be8622c.dir
+      size: 57076
+      nfiles: 249
   evaluate:
     cmd: python evaluate.py
     deps:
     - path: Extracted_Data/
       hash: md5
-      md5: 7a2c7ac8881970577094cc3524bc29e1.dir
-      size: 2843641
-      nfiles: 230
+      md5: 5a39d92503a28de349ae5a68a9502a6d.dir
+      size: 2661376
+      nfiles: 249
     - path: Processed_Data/
       hash: md5
-      md5: c09d3010cc2ba48c9d9e1649ab0ad07f.dir
-      size: 79757
-      nfiles: 230
+      md5: 0f1421b6a14d1163a5a83fae1be8622c.dir
+      size: 57076
+      nfiles: 249
     params:
       params.yaml:
-        year: 2003
+        year: 2002
     outs:
     - path: Metrics/
       hash: md5
-      md5: ae4daa2e8ccb1d237ceccd5e79addff0.dir
-      size: 7292
+      md5: e5adb73f71b5118985aa1ced1d46e20b.dir
+      size: 4591
       nfiles: 1
+  download:
+    cmd: python download.py
+    params:
+      params.yaml:
+        n_locs: 250
+        year: 2002
+    outs:
+    - path: Downloaded_Data/
+      hash: md5
+      md5: 5aa55afb135291e55b6b446361b23ef9.dir
+      size: 150586145
+      nfiles: 249
