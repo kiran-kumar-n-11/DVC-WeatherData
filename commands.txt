@@ -1,0 +1,6 @@
+dvc stage add --run -vf \
+-n download \
+-p year \
+-p n_locs \
+-o Data/{year}
+python prepare.py

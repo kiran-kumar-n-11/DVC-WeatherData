@@ -1,0 +1,35 @@
+stages:
+  download:
+    cmd: python download.py
+    params:
+    - n_locs
+    - year
+    outs:
+    - Downloaded_Data/
+  prepare:
+    cmd: python prepare.py
+    deps:
+    - Downloaded_Data/
+    params:
+    - n_locs
+    - monthly_fields
+    outs:
+    - Extracted_Data/
+  process:
+    cmd: python process.py
+    deps:
+    - Downloaded_Data/
+    params:
+    - daily_fields
+    - n_locs
+    outs:
+    - Processed_Data/
+  evaluate:
+    cmd: python evaluate.py
+    deps:
+    - Extracted_Data/
+    - Processed_Data/
+    params:
+    - year
+    outs:
+    - Metrics/

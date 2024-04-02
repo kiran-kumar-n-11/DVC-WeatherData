@@ -13,7 +13,7 @@ def fetch_page(base_url,year):
     page_url = f"{base_url}{year}/"
 
     current_dir = os.getcwd()
-    full_path = os.path.join(current_dir, "Data")
+    full_path = os.path.join(current_dir, "Downloaded_Data")
     os.makedirs(full_path,exist_ok=True)
 
     response = requests.get(page_url)
@@ -41,12 +41,12 @@ async def download_data(links,base_url,year):
     tasks = []
 
     current_dir = os.getcwd()
-    year_folder_path = os.path.join(os.path.join(current_dir,"Data"),str(year))
+    year_folder_path = os.path.join(current_dir,"Downloaded_Data")
     os.makedirs(year_folder_path,exist_ok=True)
 
     with tqdm(len(links),desc="Downloading files") as pbar:
         for i, url in enumerate(links):
-            full_url = full_url = f"{base_url}/{str(year)}/{url}"
+            full_url  = f"{base_url}/{str(year)}/{url}"
             task = asyncio.create_task(download_file(full_url, os.path.join(year_folder_path,url),pbar))
             tasks.append(task)
 

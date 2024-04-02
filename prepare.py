@@ -4,11 +4,11 @@ import yaml
 import time
 
 
-def get_filepaths(root_location,year):
+def get_filepaths(root_location):
 
     csv_file_paths = []
 
-    directory = f"{root_location}/Data/{year}/"
+    directory = f"{root_location}/Downloaded_Data/"
 
     for file in os.listdir(directory):
         # Check if the file is a CSV file
@@ -20,7 +20,7 @@ def get_filepaths(root_location,year):
     
     return csv_file_paths
 
-def prepare(file_paths,fields,year):
+def prepare(file_paths,fields):
 
     for file in file_paths:
         try:
@@ -30,7 +30,7 @@ def prepare(file_paths,fields,year):
 
             cur_path = os.getcwd()
             os.makedirs(os.path.join(cur_path,'Extracted_Data'),exist_ok=True)
-            full_path = f"{cur_path}/Extracted_Data/{year}"
+            full_path = f"{cur_path}/Extracted_Data"
             os.makedirs(full_path,exist_ok=True)
 
             df.to_csv(f"{full_path}/{file.split('/')[-1]}",index=False)
@@ -46,12 +46,12 @@ if __name__ == '__main__':
     with open('params.yaml','r') as file:
         params = yaml.safe_load(file)
 
-    year = params['year']
+
     fields = params['monthly_fields']
     root_loc = os.getcwd()
 
-    file_paths = get_filepaths(root_loc,year)
-    prepare(file_paths,fields,year)
+    file_paths = get_filepaths(root_loc)
+    prepare(file_paths,fields)
 
     print('-'*100)
     print(f'Task completed in {time.time() - st} sec.')

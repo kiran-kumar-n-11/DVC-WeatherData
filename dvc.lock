@@ -1,0 +1,60 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python prepare.py
+    deps:
+    - path: Downloaded_Data/
+      hash: md5
+      md5: 9a5d44026a77541c38530d09fcb0637b.dir
+      size: 176823312
+      nfiles: 249
+    params:
+      params.yaml:
+        n_locs: 250
+    outs:
+    - path: Extracted_Data/
+      hash: md5
+      md5: 7a2c7ac8881970577094cc3524bc29e1.dir
+      size: 2843641
+      nfiles: 230
+  process:
+    cmd: python process.py
+    deps:
+    - path: Downloaded_Data/
+      hash: md5
+      md5: 9a5d44026a77541c38530d09fcb0637b.dir
+      size: 176823312
+      nfiles: 249
+    params:
+      params.yaml:
+        daily_fields:
+        - DailyDepartureFromNormalAverageTemperature
+        n_locs: 250
+    outs:
+    - path: Processed_Data/
+      hash: md5
+      md5: c09d3010cc2ba48c9d9e1649ab0ad07f.dir
+      size: 79757
+      nfiles: 230
+  evaluate:
+    cmd: python evaluate.py
+    deps:
+    - path: Extracted_Data/
+      hash: md5
+      md5: 7a2c7ac8881970577094cc3524bc29e1.dir
+      size: 2843641
+      nfiles: 230
+    - path: Processed_Data/
+      hash: md5
+      md5: c09d3010cc2ba48c9d9e1649ab0ad07f.dir
+      size: 79757
+      nfiles: 230
+    params:
+      params.yaml:
+        year: 2003
+    outs:
+    - path: Metrics/
+      hash: md5
+      md5: ae4daa2e8ccb1d237ceccd5e79addff0.dir
+      size: 7292
+      nfiles: 1

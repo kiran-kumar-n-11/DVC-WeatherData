@@ -4,11 +4,11 @@ import yaml
 import time
 from sklearn.metrics import r2_score
 
-def get_filepaths(root_location,year):
+def get_filepaths(root_location):
 
     csv_file_paths = []
 
-    directory = f"{root_location}/Data/{year}/"
+    directory = f"{root_location}/Processed_Data/"
 
     for file in os.listdir(directory):
         # Check if the file is a CSV file
@@ -18,7 +18,7 @@ def get_filepaths(root_location,year):
 
     return csv_file_paths
 
-def evaluate(file_paths,fields,year):
+def evaluate(file_paths):
     r2score_metric = {}
     consistent_stations = 0
     inconsistent_stations = 0
@@ -28,8 +28,8 @@ def evaluate(file_paths,fields,year):
 
     for file in file_paths:
         try:
-            processed_df = pd.read_csv(f"{cwd}/Processed_Data/2002/{file}") # contains calc monthly average
-            extracted_df = pd.read_csv(f"{cwd}/Extracted_Data/2002/{file}") # contains original monthly average
+            processed_df = pd.read_csv(f"{cwd}/Processed_Data/{file}") # contains calc monthly average
+            extracted_df = pd.read_csv(f"{cwd}/Extracted_Data/{file}") # contains original monthly average
             extracted_df = extracted_df.dropna()
             if(extracted_df.shape[0]!=0):
                 merged_df = pd.merge(processed_df , extracted_df, on='DATE')
@@ -53,8 +53,8 @@ def evaluate(file_paths,fields,year):
             continue
 
         
-    os.makedirs(f"{cwd}/Metrics/{year}",exist_ok=True)
-    path = f"{cwd}/Metrics/{year}/"
+    os.makedirs(f"{cwd}/Metrics",exist_ok=True)
+    path = f"{cwd}/Metrics/"
     diis = [(key, value) for key, value in r2score_metric.items()]
     metrics_df = pd.DataFrame(diis,columns=['Station','R2 Score'])
     metrics_df.to_csv(f"{path}r2_score.csv")
@@ -72,12 +72,11 @@ if __name__ == '__main__':
         params = yaml.safe_load(file)
 
     year = params['year']
-    fields = params['daily_fields']
 
     root_loc = os.getcwd()
 
-    file_paths = get_filepaths(root_loc,year)
-    consistent_stations, inconsistent_stations, under_data_stations = evaluate(file_paths,fields,year)
+    file_paths = get_filepaths(root_loc)
+    consistent_stations, inconsistent_stations, under_data_stations = evaluate(file_paths)
     print('-'*100)
     print()
     print("YEAR: ",year)

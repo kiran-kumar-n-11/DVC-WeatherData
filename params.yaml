@@ -1,5 +1,5 @@
-year : 2002
-n_locs: 500
+year : 2003
+n_locs: 150
 monthly_fields:
   - 'MonthlyDepartureFromNormalAverageTemperature'
 daily_fields:
