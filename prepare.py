@@ -33,7 +33,7 @@ def prepare(file_paths,fields,year):
             full_path = f"{cur_path}/Extracted_Data/{year}"
             os.makedirs(full_path,exist_ok=True)
 
-            df.to_csv(f"{full_path}/{file.split('/')[-1]}.csv",index=False)
+            df.to_csv(f"{full_path}/{file.split('/')[-1]}",index=False)
         except:
             continue
     
