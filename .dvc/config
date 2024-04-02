@@ -1,0 +1,4 @@
+[core]
+    remote = mygithub
+['remote "mygithub"']
+    url = https://github.com/kiran-kumar-n-11/DVC-WeatherData.git
