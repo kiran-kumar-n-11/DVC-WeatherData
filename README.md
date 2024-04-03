@@ -3,8 +3,8 @@
 ### The repository contains the following:
 
 - download.py --> To download the weather data based on year and nlocs(no. of stations data required) specified.  
-- process.py --> To fetch the monthly average data based on weather data fields specified if any exists.
-- prepare.py --> To calculate monthly average data for the specified fields based on daily average data available.
+- prepare.py --> To fetch the monthly average data based on weather data fields specified if any exists.
+- process.py --> To calculate monthly average data for the specified fields based on daily average data available.
 - evaluate.py --> To calculate consistency using R2 Score for fetched monthly averages and calculated monthly averages.
 <br></br>
 - params.yaml --> To specify parameters required like year, nlocs, weather data fields.
