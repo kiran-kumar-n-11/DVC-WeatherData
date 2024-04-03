@@ -5,7 +5,9 @@ import time
 
 
 def get_filepaths(root_location):
-
+    """
+        Get the csv file names of downloaded data.
+    """
     csv_file_paths = []
 
     directory = f"{root_location}/Downloaded_Data/"
@@ -24,6 +26,7 @@ def prepare(file_paths,fields):
 
     for file in file_paths:
         try:
+            # Extract the monthly averages data. 
             df = pd.read_csv(file)
             df['DATE'] = pd.to_datetime(df['DATE']).dt.strftime('%m-%Y')
             df = df[['DATE']+fields]
@@ -32,7 +35,7 @@ def prepare(file_paths,fields):
             os.makedirs(os.path.join(cur_path,'Extracted_Data'),exist_ok=True)
             full_path = f"{cur_path}/Extracted_Data"
             os.makedirs(full_path,exist_ok=True)
-
+            # Save extracted data
             df.to_csv(f"{full_path}/{file.split('/')[-1]}",index=False)
         except:
             continue

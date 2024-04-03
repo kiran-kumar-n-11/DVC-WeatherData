@@ -28,13 +28,17 @@ def evaluate(file_paths):
 
     for file in file_paths:
         try:
+            # Get the processed file and extracted file
             processed_df = pd.read_csv(f"{cwd}/Processed_Data/{file}") # contains calc monthly average
             extracted_df = pd.read_csv(f"{cwd}/Extracted_Data/{file}") # contains original monthly average
             extracted_df = extracted_df.dropna()
+            # check if extracted df is not empty
             if(extracted_df.shape[0]!=0):
+                # merge the data based on DATE
                 merged_df = pd.merge(processed_df , extracted_df, on='DATE')
                 merged_df = merged_df.dropna()
-    #             display(merged_df)
+                
+                # Minimum 2 data points are required to calculate consistent R2 Score
                 if(merged_df.shape[0]>2):
                     R2Score = r2_score(merged_df['MonthlyDepartureFromNormalAverageTemperature'],
                                     merged_df['DailyDepartureFromNormalAverageTemperature'])
@@ -52,7 +56,7 @@ def evaluate(file_paths):
             under_data_stations += 1
             continue
 
-        
+    # save the r2 scores calculated as csv files
     os.makedirs(f"{cwd}/Metrics",exist_ok=True)
     path = f"{cwd}/Metrics/"
     diis = [(key, value) for key, value in r2score_metric.items()]
@@ -78,7 +82,7 @@ if __name__ == '__main__':
     file_paths = get_filepaths(root_loc)
     consistent_stations, inconsistent_stations, under_data_stations = evaluate(file_paths)
     print('-'*100)
-    print()
+    print() # printing output to get a good analysis.
     print("YEAR: ",year)
     print("Number of consistent stations: ",consistent_stations)
     print("Number of inconsistent stations: ",inconsistent_stations)

@@ -5,7 +5,9 @@ import time
 
 
 def get_filepaths(root_location):
-
+    """
+        Get the file names of the csv files.
+    """
     csv_file_paths = []
 
     directory = f"{root_location}/Downloaded_Data/"
@@ -25,6 +27,7 @@ def process(file_paths,fields):
     for file in file_paths:
         try:
             df = pd.read_csv(file)
+            # change the format of DATE to calculate monthly averages.
             df['DATE'] = pd.to_datetime(df['DATE']).dt.strftime('%m-%Y')
             for col in fields:
                 df[col] = pd.to_numeric(df[col], errors='coerce')
@@ -34,6 +37,8 @@ def process(file_paths,fields):
             df = df.groupby(['DATE']).mean()
             
             cur_path = os.getcwd()
+
+            # store the monthly averages data in processed_data folder
             os.makedirs(os.path.join(cur_path,'Processed_Data'),exist_ok=True)
             full_path = f"{cur_path}/Processed_Data"
             os.makedirs(full_path,exist_ok=True)
